@@ -16,10 +16,14 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema,reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js"); 
+const userRouter = require("./routes/user.js");
 
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
@@ -50,21 +54,39 @@ main()
   app.use(session(sessionOptions));
 
   app.use(flash());
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.use(new LocalStrategy(User.authenticate()));
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
   app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     //console.log(res.locals.success);
     res.locals.error = req.flash("error");
     next();
   });
+app.get("/demoUser", async (req, res) => {
+    const fakeUser = new User({
+        email: "student@gmail.com",
+        username: "student",
+    });
+
+    const newUser = await User.register(fakeUser, "chicken");
+    res.send(newUser);
+});
+
+
 
  
 
 
 
-app.use("/listings",listings);
+app.use("/listings",listingsRouter);
 
 
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 
 app.use((req, res, next) => {
