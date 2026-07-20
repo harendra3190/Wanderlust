@@ -64,6 +64,7 @@ main()
     res.locals.success = req.flash("success");
     //console.log(res.locals.success);
     res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user;
     next();
   });
 app.get("/demoUser", async (req, res) => {
