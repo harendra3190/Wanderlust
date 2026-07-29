@@ -125,3 +125,18 @@ body{
     padding-right: 0;
 
 }
+
+.starability-result {
+    display: block;
+    width: 150px;
+    height: 30px;
+    margin-bottom: 12px;
+}
+
+.card-body {
+    overflow: hidden;
+}
+
+.card {
+    overflow: hidden;
+}
