@@ -1,4 +1,4 @@
-```ejs
+
 <% layout("/layouts/boilerplate") %>
 
 <div class="row mt-4">
@@ -11,6 +11,7 @@
             action="/listings/<%= listing._id %>?_method=PUT"
             novalidate
             class="needs-validation"
+            enctype="multipart/form-data"
         >
 
             <div class="mb-3">
@@ -47,23 +48,31 @@
                 </div>
             </div>
 
+             <div class="mb-3">
+                Orignal Listing Image <br>
+                <img src="<%= originalImageUrl %>"
+                
+
+               
+            </div>
+
             <div class="mb-3">
                 <label for="image" class="form-label">
-                    Image Link
+                    Upload new Image
                 </label>
 
                 <input
                     id="image"
                     name="listing[image]"
-                    value="<%= listing.image.url %>"
-                    type="text"
+                    value="<%=listing.price%>"
+                   
+                    type="number"
                     class="form-control"
                     required
+                   
                 />
 
-                <div class="invalid-feedback">
-                    Please enter a valid image URL.
-                </div>
+               
             </div>
 
             <div class="row">

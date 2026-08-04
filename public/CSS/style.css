@@ -140,3 +140,11 @@ body{
 .card {
     overflow: hidden;
 }
+
+/* map */
+
+#map{
+    height:400px;
+    width:80vh;
+
+}
