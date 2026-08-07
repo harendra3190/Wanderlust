@@ -44,7 +44,12 @@ owner: {
       required: true
     }
   
-  }
+  },
+  category: {
+    type: String,
+    enum: ['Beach', 'Mountain', 'City', 'Countryside', 'Desert', 'Forest'],
+    required: true
+  } ,
 
 
 
