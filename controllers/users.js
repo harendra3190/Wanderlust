@@ -5,30 +5,35 @@ module.exports.renderSignupForm = (req, res) => {
     res.render("users/signup.ejs");
 };
 
-module.exports.Signup = async (req, res) => {
-    try{
+module.exports.Signup = async (req, res, next) => {
+    try {
         const { email, username, password } = req.body;
-    newUser = new user({ email, username });
-    const registeredUser = await user.register(newUser, password);
-    console.log(registeredUser);
-    req.login(registeredUser, (err) => {
-        if (err) return next(err);
-        req.flash("success", "Welcome to Wanderlust!");
-        res.redirect("/listings");
-    });    
 
+        // Create a new user
+        const newUser = new User({
+            email,
+            username
+        });
 
-     
-    req.flash("success", "Successfully signed up!");
-    res.redirect("/listings");
+        // Register user and hash password
+        const registeredUser = await User.register(newUser, password);
 
-    }
+        console.log("New user created:", registeredUser);
 
-    catch(e){
+        // Automatically log in the user after signup
+        req.login(registeredUser, (err) => {
+            if (err) {
+                return next(err);
+            }
+
+            req.flash("success", "Welcome to Wanderlust!");
+            res.redirect("/listings");
+        });
+
+    } catch (e) {
         req.flash("error", e.message);
         res.redirect("/signup");
-    }   
-    
+    }
 };
 
 module.exports.renderLoginForm = (req, res) => {
@@ -40,13 +45,13 @@ module.exports.Login = async (req, res) => {
     res.redirect(res.locals.redirectUrl || "/listings");
 };
 
-module.exports.Logout =  (req, res,next) => {
-  req.logout((err) => {
-    if (err) {
-        return next(err);
-    }
-    req.flash("success", "Successfully logged out!");
-    res.redirect("/listings");
-  });
+module.exports.Logout = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
 
+        req.flash("success", "Successfully logged out!");
+        res.redirect("/listings");
+    });
 };

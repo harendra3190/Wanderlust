@@ -32,9 +32,14 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js"); 
 const userRouter = require("./routes/user.js");
 
+  const dbUrl = process.env.ATLASDB_URL;
+
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
-}
+  await mongoose.connect(dbUrl);
+  console.log(dbUrl);
+  
+
+}  
 main()
   .then(() => {
     console.log("connected to DB");
@@ -42,6 +47,8 @@ main()
   .catch((err) => {
     console.log(err);
   });
+
+
 
   const sessionOptions = {
     secret: "mysupersecretcode",
