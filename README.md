@@ -317,7 +317,7 @@ http://localhost:8080
 
 # 👩‍💻 Developed By
 
-**Shambhavi Singh**
+**Harendra Pratap Singh**
 
 If you found this project interesting, feel free to ⭐ the repository.
 
